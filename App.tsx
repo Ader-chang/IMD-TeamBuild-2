@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } from './components/Icons';
 
 /**
@@ -18,11 +18,19 @@ const App: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Map the Google Form entry IDs back to our state keys
+    let stateKey = name;
+    if (name === 'entry.1816636850') stateKey = 'name';
+    else if (name === 'entry.809484937') stateKey = 'power';
+    else if (name === 'entry.1104464007') stateKey = 'backup';
+
+    setFormData(prev => ({ ...prev, [stateKey]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    // We let the form submit naturally to the hidden iframe
+  const handleSubmit = () => {
+    // Check if the form is valid before showing success
+    // This allows the natural form submission to the hidden iframe
     setSubmitted(true);
   };
 
@@ -117,19 +125,19 @@ const App: React.FC = () => {
                 <ChoiceItem 
                   id="q2_2"
                   name="entry.809484937"
-                  value="【感性說書組】—— 練習換位思考與創意聯想 (限 5 人)"
+                  value="【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"
                   title="【感性說書組】"
-                  description="練習換位思考與創意聯想 (限 5 人)"
-                  checked={formData.power === "【感性說書組】—— 練習換位思考與創意聯想 (限 5 人)"}
+                  description="練習換位思考與創意聯想 (限 6 人)"
+                  checked={formData.power === "【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"}
                   onChange={handleInputChange}
                 />
                 <ChoiceItem 
                   id="q2_3"
                   name="entry.809484937"
-                  value="【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 6 人)"
+                  value="【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"
                   title="【燒腦解碼組】"
-                  description="練習精準溝通與邏輯競技 (限 6 人)"
-                  checked={formData.power === "【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 6 人)"}
+                  description="練習精準溝通與邏輯競技 (限 4 人)"
+                  checked={formData.power === "【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"}
                   onChange={handleInputChange}
                 />
               </div>

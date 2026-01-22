@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -12,7 +13,6 @@
             --neon-blue: #00f3ff;
             --neon-purple: #bc13fe;
             --dark-bg: #050a10;
-            --card-bg: rgba(10, 20, 35, 0.9);
         }
 
         body {
@@ -23,71 +23,12 @@
             background-size: 30px 30px;
             color: #e0e0e0;
             font-family: 'Noto Sans TC', sans-serif;
+            margin: 0;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .tech-font { font-family: 'Orbitron', sans-serif; }
-
-        .neon-card {
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-        }
-
-        .glow-text { text-shadow: 0 0 10px var(--neon-blue); }
-
-        .input-field {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            transition: all 0.3s;
-        }
-
-        .input-field:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-            outline: none;
-        }
-
-        .choice-label {
-            display: block;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.03);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0.25rem;
-        }
-
-        .choice-label:hover {
-            border-color: var(--neon-blue);
-            background: rgba(0, 243, 255, 0.05);
-        }
-
-        input[type="radio"]:checked ~ .choice-label {
-            background: rgba(188, 19, 254, 0.15);
-            border: 1px solid var(--neon-purple);
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
-        }
-
-        input[type="radio"]:checked ~ .choice-label .group-title {
-            color: var(--neon-purple);
-            text-shadow: 0 0 8px var(--neon-purple);
-        }
-
-        .tech-button {
-            clip-path: polygon(5% 0, 100% 0, 100% 70%, 95% 100%, 0 100%, 0 30%);
-            background: transparent;
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .tech-button:hover {
-            background: var(--neon-blue);
-            color: var(--dark-bg);
-            box-shadow: 0 0 25px var(--neon-blue);
-        }
 
         .scanline {
             width: 100%;
@@ -96,141 +37,25 @@
             position: absolute;
             pointer-events: none;
             animation: scan 4s linear infinite;
+            z-index: 10;
         }
 
         @keyframes scan {
             0% { top: 0%; }
             100% { top: 100%; }
         }
-
-        #success-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 50;
-            align-items: center;
-            justify-content: center;
-        }
     </style>
-    <script>
-        var submitted = false;
-        function showSuccess() {
-            document.getElementById('success-modal').style.display = 'flex';
-        }
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/"
+      }
+    }
     </script>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
 </head>
-<body class="p-4 md:p-8 flex items-center justify-center">
-
-    <!-- 隱藏的 iframe 用於處理表單提交 -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof submitted !== 'undefined' && submitted) {showSuccess();}"></iframe>
-
-    <div class="max-w-3xl w-full relative">
-        <main class="neon-card rounded-xl p-6 md:p-10 relative overflow-hidden">
-            <div class="scanline"></div>
-            
-            <header class="mb-10 border-b border-cyan-900/50 pb-6">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h1 class="tech-font text-2xl md:text-3xl font-bold glow-text text-cyan-400">
-                            FORCE <span class="text-purple-500">DISCOVERY</span>
-                        </h1>
-                        <p class="text-[10px] mt-1 text-cyan-700 tracking-[0.3em] uppercase">Protocol: Cohesion Activity 2.0</p>
-                    </div>
-                    <div class="text-right tech-font text-[10px] text-gray-500">
-                        DATE: 01/21<br>TIME: 15:00-17:00
-                    </div>
-                </div>
-                <div class="mt-6 text-sm text-gray-400 leading-relaxed bg-cyan-950/20 p-4 border-l-2 border-cyan-500">
-                    各位夥伴好！第二次的凝聚力活動即將到來。
-                    這一次，我們將「組別選擇權」交給你。每一組所使用的桌遊教材，都對應著不同的團隊超能力。
-                    <br><span class="text-xs text-purple-400 mt-2 block">※ 採「先到先得」制，名額額滿後選項將自動關閉。</span>
-                </div>
-            </header>
-
-            <form action="https://docs.google.com/forms/d/e/1FAIpQLSdlqpEYQp_G638WWCEFX_NbCvGhrM-xCHbHRpG7tR8ekX3WYg/formResponse" 
-                  method="POST" 
-                  target="hidden_iframe" 
-                  onsubmit="submitted=true;"
-                  class="space-y-10">
-                
-                <!-- Q1: 姓名 - 更新 ID 為 1816636850 -->
-                <section>
-                    <label class="tech-font text-sm text-cyan-400 mb-3 block flex items-center gap-2">
-                        <span class="w-2 h-2 bg-cyan-400"></span> Q1. USER_IDENTIFICATION / 你的姓名或暱稱
-                    </label>
-                    <input type="text" name="entry.1816636850" required placeholder="PLEASE ENTER YOUR NAME..." class="w-full input-field rounded px-4 py-3 text-cyan-100">
-                </section>
-
-                <!-- Q2: 組別選擇 - 更新 ID 為 809484937 -->
-                <section>
-                    <label class="tech-font text-sm text-purple-400 mb-3 block flex items-center gap-2">
-                        <span class="w-2 h-2 bg-purple-400"></span> Q2. CORE_POWER_SELECTION / 你想啟動哪種原力？
-                    </label>
-                    <div class="grid gap-3">
-                        <div class="relative">
-                            <input type="radio" name="entry.809484937" value="【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)" id="q2_1" class="hidden" required>
-                            <label for="q2_1" class="choice-label p-4">
-                                <div class="group-title font-bold text-cyan-300 transition-colors">【靜心默契組】</div>
-                                <div class="text-xs text-gray-500 mt-1">練習不言而喻的深度共鳴 (限 4 人)</div>
-                            </label>
-                        </div>
-                        <div class="relative">
-                            <input type="radio" name="entry.809484937" value="【感性說書組】—— 練習換位思考與創意聯想 (限 5 人)" id="q2_2" class="hidden">
-                            <label for="q2_2" class="choice-label p-4">
-                                <div class="group-title font-bold text-cyan-300 transition-colors">【感性說書組】</div>
-                                <div class="text-xs text-gray-500 mt-1">練習換位思考與創意聯想 (限 5 人)</div>
-                            </label>
-                        </div>
-                        <div class="relative">
-                            <input type="radio" name="entry.809484937" value="【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 6 人)" id="q2_3" class="hidden">
-                            <label for="q2_3" class="choice-label p-4">
-                                <div class="group-title font-bold text-cyan-300 transition-colors">【燒腦解碼組】</div>
-                                <div class="text-xs text-gray-500 mt-1">練習精準溝通與邏輯競技 (限 6 人)</div>
-                            </label>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Q3: 志願調整 - 更新 ID 為 1104464007 -->
-                <section>
-                    <label class="tech-font text-sm text-gray-400 mb-3 block flex items-center gap-2">
-                        <span class="w-2 h-2 bg-gray-600"></span> Q3. BACKUP_PLAN / 志願調整考慮
-                    </label>
-                    <p class="text-[10px] text-gray-600 mb-3 italic">目的：幫助主管在需要微調人數時，避免排入壓力環境。</p>
-                    <select name="entry.1104464007" class="w-full input-field rounded px-4 py-3 text-sm text-gray-300 appearance-none cursor-pointer">
-                        <option value="沒有，我都願意嘗試！">沒有，我都願意嘗試！</option>
-                        <option value="A. 靜心組">A. 靜心組</option>
-                        <option value="B. 感性組">B. 感性組</option>
-                        <option value="C. 燒腦組">C. 燒腦組</option>
-                    </select>
-                </section>
-
-                <div class="pt-6">
-                    <button type="submit" class="tech-button w-full py-4 uppercase tracking-[0.2em] text-sm">
-                        Establish Connection // 提交原力選取
-                    </button>
-                </div>
-            </form>
-        </main>
-    </div>
-
-    <div id="success-modal">
-        <div class="neon-card p-8 rounded-xl text-center max-w-xs w-full">
-            <div class="text-cyan-400 text-4xl mb-4">✓</div>
-            <h2 class="tech-font text-xl mb-2 text-white">DATA SYNCED</h2>
-            <p class="text-gray-400 text-sm mb-6">原力數據已同步至中心伺服器</p>
-            <button onclick="location.reload()" class="tech-button px-8 py-2 text-xs">重新加載</button>
-        </div>
-    </div>
+<body>
+    <div id="root"></div>
 </body>
 </html>
