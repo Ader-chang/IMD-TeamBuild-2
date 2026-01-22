@@ -4,13 +4,14 @@ import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } fr
 
 /**
  * Force Discovery System
- * A futuristic registration portal for team cohesion activities.
+ * Optimized for Vercel deployment and stable Google Form synchronization.
  */
 
 const App: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   
-  // 使用 entry IDs 作為直接的 State Keys，確保 100% 準確的選取反饋
+  // 直接使用 Google Form Entry IDs 作為 State Keys
+  // 這確保了 Radio Button 的 checked 屬性與實際提交的資料 100% 同步，從而解決選取後不變紫色的問題
   const [formData, setFormData] = useState<Record<string, string>>({
     'entry.1816636850': '',
     'entry.809484937': '',
@@ -39,6 +40,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-8 flex items-center justify-center relative">
+      {/* 隱藏的 iframe 用於處理後台提交 */}
       <iframe name="hidden_iframe" id="hidden_iframe" className="hidden" ref={iframeRef} />
 
       <div className="max-w-3xl w-full relative">
@@ -61,7 +63,7 @@ const App: React.FC = () => {
               <div className="mt-1 text-cyan-400"><ShieldCheckIcon /></div>
               <div>
                 各位夥伴好！第二次的凝聚力活動即將到來。
-                這一次，我們將「組別選擇權」交給你。每一組所使用的桌遊教材，都對應著不同的團隊超能力。
+                這一次，我們將「組別選擇權」交給你。
                 <span className="text-xs text-purple-400 mt-2 block font-medium">※ 採「先到先得」制，名額額滿後選項將自動關閉。</span>
               </div>
             </div>
@@ -72,6 +74,7 @@ const App: React.FC = () => {
             method="POST" 
             target="hidden_iframe"
             onSubmit={handleSubmit}
+            autoComplete="off"
             className="space-y-10 relative z-20"
           >
             {/* Q1: Name */}
