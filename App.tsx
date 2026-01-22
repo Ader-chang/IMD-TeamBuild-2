@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } from './components/Icons';
+import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } from './components/Icons.tsx';
 
 /**
  * Force Discovery System
@@ -9,37 +9,31 @@ import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } fr
 
 const App: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    power: '',
-    backup: '沒有，我都願意嘗試！'
+  
+  // Directly use entry IDs as state keys to ensure 100% reliable selection tracking
+  const [formData, setFormData] = useState<Record<string, string>>({
+    'entry.1816636850': '',
+    'entry.809484937': '',
+    'entry.1104464007': '沒有，我都願意嘗試！'
   });
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
-    // Map the Google Form entry IDs back to our state keys
-    let stateKey = name;
-    if (name === 'entry.1816636850') stateKey = 'name';
-    else if (name === 'entry.809484937') stateKey = 'power';
-    else if (name === 'entry.1104464007') stateKey = 'backup';
-
-    setFormData(prev => ({ ...prev, [stateKey]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    // Check if the form is valid before showing success
-    // This allows the natural form submission to the hidden iframe
     setSubmitted(true);
   };
 
   const handleReset = () => {
     setSubmitted(false);
     setFormData({
-      name: '',
-      power: '',
-      backup: '沒有，我都願意嘗試！'
+      'entry.1816636850': '',
+      'entry.809484937': '',
+      'entry.1104464007': '沒有，我都願意嘗試！'
     });
   };
 
@@ -98,7 +92,7 @@ const App: React.FC = () => {
                 <input 
                   type="text" 
                   name="entry.1816636850" 
-                  value={formData.name}
+                  value={formData['entry.1816636850']}
                   onChange={handleInputChange}
                   required 
                   placeholder="PLEASE ENTER YOUR NAME..." 
@@ -119,7 +113,7 @@ const App: React.FC = () => {
                   value="【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)"
                   title="【靜心默契組】"
                   description="練習不言而喻的深度共鳴 (限 4 人)"
-                  checked={formData.power === "【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)"}
+                  checked={formData['entry.809484937'] === "【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)"}
                   onChange={handleInputChange}
                 />
                 <ChoiceItem 
@@ -128,7 +122,7 @@ const App: React.FC = () => {
                   value="【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"
                   title="【感性說書組】"
                   description="練習換位思考與創意聯想 (限 6 人)"
-                  checked={formData.power === "【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"}
+                  checked={formData['entry.809484937'] === "【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"}
                   onChange={handleInputChange}
                 />
                 <ChoiceItem 
@@ -137,7 +131,7 @@ const App: React.FC = () => {
                   value="【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"
                   title="【燒腦解碼組】"
                   description="練習精準溝通與邏輯競技 (限 4 人)"
-                  checked={formData.power === "【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"}
+                  checked={formData['entry.809484937'] === "【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"}
                   onChange={handleInputChange}
                 />
               </div>
@@ -152,7 +146,7 @@ const App: React.FC = () => {
               <div className="relative">
                 <select 
                   name="entry.1104464007" 
-                  value={formData.backup}
+                  value={formData['entry.1104464007']}
                   onChange={handleInputChange}
                   className="w-full bg-black/50 border border-cyan-500/30 rounded px-4 py-3 text-sm text-gray-300 appearance-none cursor-pointer focus:outline-none focus:border-cyan-400 transition-all"
                 >
