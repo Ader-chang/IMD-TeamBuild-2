@@ -1,21 +1,24 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } from './components/Icons.tsx';
 
 /**
  * Force Discovery System
- * Optimized for Vercel deployment and stable Google Form synchronization.
+ * Swapped Entry IDs: 809484937 and 1104464007
  */
 
 const App: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // 直接使用 Google Form Entry IDs 作為 State Keys
-  // 這確保了 Radio Button 的 checked 屬性與實際提交的資料 100% 同步，從而解決選取後不變紫色的問題
+  // Swapped Google Form Entry IDs
+  // 1816636850: Name / User Identification
+  // 1104464007: Selection / Core Power (Updated)
+  // 809484937: Backup Plan / Volition (Updated)
   const [formData, setFormData] = useState<Record<string, string>>({
     'entry.1816636850': '',
-    'entry.809484937': '',
-    'entry.1104464007': '沒有，我都願意嘗試！'
+    'entry.1104464007': '',
+    'entry.809484937': '沒有，我都願意嘗試！'
   });
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -25,23 +28,36 @@ const App: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    setSubmitted(true);
+  const handleFormSubmit = () => {
+    setIsSubmitting(true);
+  };
+
+  const handleIframeLoad = () => {
+    if (isSubmitting) {
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }
   };
 
   const handleReset = () => {
     setSubmitted(false);
+    setIsSubmitting(false);
     setFormData({
       'entry.1816636850': '',
-      'entry.809484937': '',
-      'entry.1104464007': '沒有，我都願意嘗試！'
+      'entry.1104464007': '',
+      'entry.809484937': '沒有，我都願意嘗試！'
     });
   };
 
   return (
     <div className="min-h-screen p-4 md:p-8 flex items-center justify-center relative">
-      {/* 隱藏的 iframe 用於處理後台提交 */}
-      <iframe name="hidden_iframe" id="hidden_iframe" className="hidden" ref={iframeRef} />
+      <iframe 
+        name="hidden_iframe" 
+        id="hidden_iframe" 
+        className="hidden" 
+        ref={iframeRef}
+        onLoad={handleIframeLoad}
+      />
 
       <div className="max-w-3xl w-full relative">
         <main className="relative overflow-hidden rounded-xl border border-cyan-500/30 bg-[#0a1423e6] backdrop-blur-xl p-6 md:p-10 shadow-[0_0_20px_rgba(0,243,255,0.2)]">
@@ -63,20 +79,23 @@ const App: React.FC = () => {
               <div className="mt-1 text-cyan-400"><ShieldCheckIcon /></div>
               <div>
                 各位夥伴好！第二次的凝聚力活動即將到來。
-                這一次，我們將「組別選擇權」交給你。
+                這一次，我們將「組別選擇權」交給你。每一組教材對應不同的團隊能力。
                 <span className="text-xs text-purple-400 mt-2 block font-medium">※ 採「先到先得」制，名額額滿後選項將自動關閉。</span>
               </div>
             </div>
           </header>
 
           <form 
-            action="https://docs.google.com/forms/d/e/1FAIpQLSdlqpEYQp_G638WWCEFX_NbCvGhrM-xCHbHRpG7tR8ekX3WYg/formResponse" 
+            action="https://docs.google.com/forms/d/e/1IZnUohs6mySj6PWRNYcOEM0s_0mXSSuXl3bhhuRSsvk/formResponse" 
             method="POST" 
             target="hidden_iframe"
-            onSubmit={handleSubmit}
+            onSubmit={handleFormSubmit}
             autoComplete="off"
             className="space-y-10 relative z-20"
           >
+            <input type="hidden" name="fvv" value="1" />
+            <input type="hidden" name="pageHistory" value="0" />
+
             {/* Q1: Name */}
             <section>
               <label className="tech-font text-sm text-cyan-400 mb-3 flex items-center gap-2">
@@ -106,29 +125,29 @@ const App: React.FC = () => {
               <div className="grid gap-3">
                 <ChoiceItem 
                   id="q2_1"
-                  name="entry.809484937"
+                  name="entry.1104464007"
                   value="【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)"
                   title="【靜心默契組】"
                   description="練習不言而喻的深度共鳴 (限 4 人)"
-                  checked={formData['entry.809484937'] === "【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)"}
+                  checked={formData['entry.1104464007'] === "【靜心默契組】—— 練習不言而喻的深度共鳴 (限 4 人)"}
                   onChange={handleInputChange}
                 />
                 <ChoiceItem 
                   id="q2_2"
-                  name="entry.809484937"
+                  name="entry.1104464007"
                   value="【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"
                   title="【感性說書組】"
                   description="練習換位思考與創意聯想 (限 6 人)"
-                  checked={formData['entry.809484937'] === "【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"}
+                  checked={formData['entry.1104464007'] === "【感性說書組】—— 練習換位思考與創意聯想 (限 6 人)"}
                   onChange={handleInputChange}
                 />
                 <ChoiceItem 
                   id="q2_3"
-                  name="entry.809484937"
+                  name="entry.1104464007"
                   value="【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"
                   title="【燒腦解碼組】"
                   description="練習精準溝通與邏輯競技 (限 4 人)"
-                  checked={formData['entry.809484937'] === "【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"}
+                  checked={formData['entry.1104464007'] === "【燒腦解碼組】—— 練習精準溝通與邏輯競技 (限 4 人)"}
                   onChange={handleInputChange}
                 />
               </div>
@@ -141,8 +160,8 @@ const App: React.FC = () => {
               </label>
               <div className="relative">
                 <select 
-                  name="entry.1104464007" 
-                  value={formData['entry.1104464007']}
+                  name="entry.809484937" 
+                  value={formData['entry.809484937']}
                   onChange={handleInputChange}
                   className="w-full bg-black/50 border border-cyan-500/30 rounded px-4 py-3 text-sm text-gray-300 appearance-none cursor-pointer focus:outline-none focus:border-cyan-400 transition-all"
                 >
@@ -160,11 +179,21 @@ const App: React.FC = () => {
             <div className="pt-6">
               <button 
                 type="submit" 
-                className="group relative w-full py-4 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all duration-300 tech-font tracking-[0.2em] overflow-hidden"
+                disabled={isSubmitting}
+                className={`group relative w-full py-4 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all duration-300 tech-font tracking-[0.2em] overflow-hidden ${isSubmitting ? 'opacity-50 cursor-wait' : ''}`}
                 style={{ clipPath: 'polygon(5% 0, 100% 0, 100% 70%, 95% 100%, 0 100%, 0 30%)' }}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  <PowerIcon /> ESTABLISH CONNECTION // 提交原力選取
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+                      SYNCHRONIZING...
+                    </span>
+                  ) : (
+                    <>
+                      <PowerIcon /> ESTABLISH CONNECTION // 提交原力選取
+                    </>
+                  )}
                 </span>
                 <div className="absolute inset-0 bg-cyan-400/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
               </button>
@@ -181,7 +210,7 @@ const App: React.FC = () => {
               <CheckCircleIcon size={64} />
             </div>
             <h2 className="tech-font text-xl mb-2 text-white">DATA SYNCED</h2>
-            <p className="text-gray-400 text-sm mb-6">原力數據已同步至中心伺服器</p>
+            <p className="text-gray-400 text-sm mb-6">原力數據已成功同步至中心伺服器</p>
             <button 
               onClick={handleReset}
               className="w-full py-2 border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all tech-font text-xs"
