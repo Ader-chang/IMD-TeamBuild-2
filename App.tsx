@@ -10,7 +10,7 @@ import { PowerIcon, CheckCircleIcon, UserIcon, ShieldCheckIcon, CpuChipIcon } fr
 const App: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   
-  // Directly use entry IDs as state keys to ensure 100% reliable selection tracking
+  // 使用 entry IDs 作為直接的 State Keys，確保 100% 準確的選取反饋
   const [formData, setFormData] = useState<Record<string, string>>({
     'entry.1816636850': '',
     'entry.809484937': '',
@@ -39,13 +39,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-8 flex items-center justify-center relative">
-      {/* Hidden iframe for Google Forms submission */}
-      <iframe
-        name="hidden_iframe"
-        id="hidden_iframe"
-        className="hidden"
-        ref={iframeRef}
-      />
+      <iframe name="hidden_iframe" id="hidden_iframe" className="hidden" ref={iframeRef} />
 
       <div className="max-w-3xl w-full relative">
         <main className="relative overflow-hidden rounded-xl border border-cyan-500/30 bg-[#0a1423e6] backdrop-blur-xl p-6 md:p-10 shadow-[0_0_20px_rgba(0,243,255,0.2)]">
@@ -142,7 +136,6 @@ const App: React.FC = () => {
               <label className="tech-font text-sm text-gray-400 mb-3 flex items-center gap-2">
                 <span className="w-2 h-2 bg-gray-600"></span> Q3. BACKUP_PLAN / 志願調整考慮
               </label>
-              <p className="text-[10px] text-gray-600 mb-3 italic">目的：幫助主管在需要微調人數時，避免排入壓力環境。</p>
               <div className="relative">
                 <select 
                   name="entry.1104464007" 
@@ -177,7 +170,6 @@ const App: React.FC = () => {
         </main>
       </div>
 
-      {/* Success Modal Overlay */}
       {submitted && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="relative overflow-hidden border border-cyan-400 bg-[#0a1423] p-8 rounded-xl text-center max-w-xs w-full shadow-[0_0_50px_rgba(0,243,255,0.3)] animate-in fade-in zoom-in duration-300">
